@@ -1,0 +1,12 @@
+E:\web202305\mf1663-lbthanh\aspnetcore\MISA.WebFresher052023.HCSN\MISA.WebFresher052023.HCSN.Domain\bin\Debug\net6.0\MISA.WebFresher052023.HCSN.Domain.deps.json
+E:\web202305\mf1663-lbthanh\aspnetcore\MISA.WebFresher052023.HCSN\MISA.WebFresher052023.HCSN.Domain\bin\Debug\net6.0\MISA.WebFresher052023.HCSN.Domain.dll
+E:\web202305\mf1663-lbthanh\aspnetcore\MISA.WebFresher052023.HCSN\MISA.WebFresher052023.HCSN.Domain\bin\Debug\net6.0\MISA.WebFresher052023.HCSN.Domain.pdb
+E:\web202305\mf1663-lbthanh\aspnetcore\MISA.WebFresher052023.HCSN\MISA.WebFresher052023.HCSN.Domain\obj\Debug\net6.0\MISA.WebFresher052023.HCSN.Domain.csproj.AssemblyReference.cache
+E:\web202305\mf1663-lbthanh\aspnetcore\MISA.WebFresher052023.HCSN\MISA.WebFresher052023.HCSN.Domain\obj\Debug\net6.0\MISA.WebFresher052023.HCSN.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\web202305\mf1663-lbthanh\aspnetcore\MISA.WebFresher052023.HCSN\MISA.WebFresher052023.HCSN.Domain\obj\Debug\net6.0\MISA.WebFresher052023.HCSN.Domain.AssemblyInfoInputs.cache
+E:\web202305\mf1663-lbthanh\aspnetcore\MISA.WebFresher052023.HCSN\MISA.WebFresher052023.HCSN.Domain\obj\Debug\net6.0\MISA.WebFresher052023.HCSN.Domain.AssemblyInfo.cs
+E:\web202305\mf1663-lbthanh\aspnetcore\MISA.WebFresher052023.HCSN\MISA.WebFresher052023.HCSN.Domain\obj\Debug\net6.0\MISA.WebFresher052023.HCSN.Domain.csproj.CoreCompileInputs.cache
+E:\web202305\mf1663-lbthanh\aspnetcore\MISA.WebFresher052023.HCSN\MISA.WebFresher052023.HCSN.Domain\obj\Debug\net6.0\MISA.WebFresher052023.HCSN.Domain.dll
+E:\web202305\mf1663-lbthanh\aspnetcore\MISA.WebFresher052023.HCSN\MISA.WebFresher052023.HCSN.Domain\obj\Debug\net6.0\refint\MISA.WebFresher052023.HCSN.Domain.dll
+E:\web202305\mf1663-lbthanh\aspnetcore\MISA.WebFresher052023.HCSN\MISA.WebFresher052023.HCSN.Domain\obj\Debug\net6.0\MISA.WebFresher052023.HCSN.Domain.pdb
+E:\web202305\mf1663-lbthanh\aspnetcore\MISA.WebFresher052023.HCSN\MISA.WebFresher052023.HCSN.Domain\obj\Debug\net6.0\ref\MISA.WebFresher052023.HCSN.Domain.dll
