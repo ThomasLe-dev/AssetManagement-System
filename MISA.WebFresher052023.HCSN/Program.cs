@@ -52,7 +52,6 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
         options.JsonSerializerOptions.PropertyNamingPolicy = null;
         options.JsonSerializerOptions.DictionaryKeyPolicy = null;
-        options.JsonSerializerOptions.IgnoreNullValues = true;
         options.JsonSerializerOptions.WriteIndented = false;
     });
 
@@ -66,13 +65,19 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var connectionString = builder.Configuration["ConnectionString"] ;
 builder.Services.AddScoped<IUnitOfWork>(provider => new UnitOfWork(connectionString));
+//Fixed Asset
 builder.Services.AddScoped<IFixedAssetRepository, FixedAssetRepository>();
 builder.Services.AddScoped<IFixedAssetService, FixedAssetService>();
 builder.Services.AddScoped<IFixedAssetManager, FixedAssetManager>();
+//Department
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+//FixedAssetCategory
 builder.Services.AddScoped<MISA.WebFresher052023.HCSN.Domain.Interface.IFixedAssetCategory, FixedAssetCategoryRepository>();
 builder.Services.AddScoped<MISA.WebFresher052023.HCSN.Application.Interface.IFixedAssetCategoryService, FixedAssetCategoryService>();
+//TransferAsset
+builder.Services.AddScoped<ITransferAssetService, TransferAssetService>();
+builder.Services.AddScoped<ITransferAssetRepository, TransferAssetRepository>();
 builder.Services.AddCors(p => p.AddPolicy("MyCors", build =>
 {
     build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();

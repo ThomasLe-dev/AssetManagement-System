@@ -75,7 +75,7 @@ namespace MISA.WebFresher052023.HCSN.Application.Service
         /// <summary>
         /// Lấy ra danh sách tài sản theo điều kiện lọc, phân trang và trả về tổng số bản ghi
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="dto"></param>
         /// <returns>danh sách tài sản hợp lệ và tổng số bản ghi</returns>
         /// Created by: LB.Thành (08/08/2023)
         public async Task<FixedAssetPagingDto> GetFilterPagingAsset(FixedAssetFilterDto dto)

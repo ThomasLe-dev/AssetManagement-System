@@ -78,8 +78,8 @@ namespace MISA.WebFresher052023.HCSN.Infrastructure
 
             var fixedAssetPagingEntity = new FixedAssetPagingModel
             {
-                FixedAssetTotal = totalRecord,
-                FixedAssetEntities = fixedAssetEntitis
+                TotalRecords = totalRecord,
+                Entities = fixedAssetEntitis
             };
             return fixedAssetPagingEntity;
         }

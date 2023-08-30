@@ -25,7 +25,7 @@ namespace MISA.WebFresher052023.HCSN.Application
             CreateMap<FixedAsset, FixedAssetExcelModel>();
             CreateMap<FixedAssetFilterDto, FixedAssetFilterModel>();
             CreateMap<FixedAssetPagingModel, FixedAssetPagingDto>().ForMember(
-                dest => dest.FixedAssets, opt => opt.MapFrom(src => src.FixedAssetEntities));
+                dest => dest.FixedAssets, opt => opt.MapFrom(src => src.Entities));
             CreateMap<AssetCreateDto, FixedAsset>();
             CreateMap<AssetUpdateDto, FixedAsset>();
         }
