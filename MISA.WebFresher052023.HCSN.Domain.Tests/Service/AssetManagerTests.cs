@@ -35,7 +35,7 @@ namespace MISA.WebFresher052023.HCSN.Domain.Tests
             var assetManager = new FixedAssetManager(assetRepository);
 
             // Thực hiện phương thức CheckExistedAssetByCode và kiểm tra xem có đưa ra ngoại lệ ConflictException hay không.
-            Assert.ThrowsAsync<ConflictException>(async () => await assetManager.CheckExistedAssetByCode(code));
+            Assert.ThrowsAsync<ConflictException>(async () => await assetManager.CheckExistedEntityByCode(code));
 
             // Xác thực kết quả bằng cách kiểm tra xem phương thức FindByCodeAsync đã được gọi với đúng tham số code một lần.
             assetRepository.Received(1).FindByCodeAsync(code);
@@ -59,7 +59,7 @@ namespace MISA.WebFresher052023.HCSN.Domain.Tests
             var assetManager = new FixedAssetManager(assetRepositortyTests);
 
             // Thực hiện phương thức CheckExistedAssetByCode.
-            await assetManager.CheckExistedAssetByCode(code);
+            await assetManager.CheckExistedEntityByCode(code);
 
             // Xác thực kết quả bằng cách kiểm tra giá trị của TotalCall trong assetRepositortyTests.
             Assert.That(assetRepositortyTests.TotalCall, Is.EqualTo(1));

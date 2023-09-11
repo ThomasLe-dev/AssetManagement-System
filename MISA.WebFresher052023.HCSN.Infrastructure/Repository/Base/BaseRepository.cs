@@ -14,7 +14,7 @@ namespace MISA.WebFresher052023.HCSN.Infrastructure.Repository.Base
 {
     public abstract class BaseRepository<TEntity> : BaseReadOnlyRepository<TEntity>, IBaseRepository<TEntity> where TEntity : IHasKey
     {
-        protected BaseRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public BaseRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher052023.HCSN.Domain
 {
-    public class FixedAssetManager : IFixedAssetManager
+    public class FixedAssetManager : IEntityManager
     {
         #region Fields
         private readonly IFixedAssetRepository _assetRepository;
@@ -28,7 +28,7 @@ namespace MISA.WebFresher052023.HCSN.Domain
         /// <returns></returns>
         /// <exception cref="ConflictException">message</exception>
         /// Created by: LB.Thành (19/07/2023)
-        public async Task CheckExistedAssetByCode(string code, string? oldCode = null)
+        public async Task CheckExistedEntityByCode(string code, string? oldCode = null)
         {
             var assetExist = await _assetRepository.FindByCodeAsync(code);
 

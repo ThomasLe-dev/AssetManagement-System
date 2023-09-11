@@ -11,11 +11,11 @@ namespace MISA.WebFresher052023.HCSN.Domain.Entity
         /// <summary>
         /// Id của chứng từ điều chuyển
         /// </summary>
-        public Guid TransferAssetId { get; set; }
+        public Guid? TransferAssetId { get; set; }
         /// <summary>
         /// Mã chứng từ điều chuyển
         /// </summary>
-        public string TransferAssetCode { get; set;}
+        public string? TransferAssetCode { get; set;}
         /// <summary>
         /// Ngày chứng từ
         /// </summary>
@@ -39,7 +39,7 @@ namespace MISA.WebFresher052023.HCSN.Domain.Entity
 
         public Guid GetKey()
         {
-            return TransferAssetId;
+            return (Guid)TransferAssetId;
         }
     }
 }

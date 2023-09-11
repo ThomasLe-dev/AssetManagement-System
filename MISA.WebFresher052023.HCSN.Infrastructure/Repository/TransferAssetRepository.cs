@@ -11,6 +11,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Dapper.SqlMapper;
 
 namespace MISA.WebFresher052023.HCSN.Infrastructure.Repository
 {
@@ -64,6 +65,20 @@ namespace MISA.WebFresher052023.HCSN.Infrastructure.Repository
             // Trả về kết quả
             return transferAssetPagingEntity;
         }
+        /// <summary>
+        /// Tìm kiếm một chứng từ dựa trên code.
+        /// </summary>
+        /// <param name="code">code của tài sản cần tìm.</param>
+        /// <returns>Thông tin tài sản hoặc null nếu không tìm thấy.</returns>
+        /// Created by: LB.Thành (26/08/2023)
+        public async Task<TransferAsset?> FindByCode(string code)
+        {
+            var query = $"SELECT * FROM TransferAsset a WHERE a.TransferAssetCode = @code";
+            var parameters = new DynamicParameters();
+            parameters.Add("code", code);
 
+            var result = await _uow.Connection.QueryFirstOrDefaultAsync<TransferAsset>(query, parameters, transaction: _uow.Transaction);
+            return result;
+        }
     }
 }

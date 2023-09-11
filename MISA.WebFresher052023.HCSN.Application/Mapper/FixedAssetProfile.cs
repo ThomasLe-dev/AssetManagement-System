@@ -19,15 +19,15 @@ namespace MISA.WebFresher052023.HCSN.Application
         /// Created by: LB.Thành (19/07/2023)
         public FixedAssetProfile()
         {
-            CreateMap<FixedAsset, AssetDto>();
+            CreateMap<FixedAsset, FixedAssetDto>();
             CreateMap<FixedAsset, FixedAssetModel>();
-            CreateMap<FixedAssetModel, AssetDto>();
+            CreateMap<FixedAssetModel, FixedAssetDto>();
             CreateMap<FixedAsset, FixedAssetExcelModel>();
             CreateMap<FixedAssetFilterDto, FixedAssetFilterModel>();
             CreateMap<FixedAssetPagingModel, FixedAssetPagingDto>().ForMember(
                 dest => dest.FixedAssets, opt => opt.MapFrom(src => src.Entities));
-            CreateMap<AssetCreateDto, FixedAsset>();
-            CreateMap<AssetUpdateDto, FixedAsset>();
+            CreateMap<FixedAssetCreateDto, FixedAsset>();
+            CreateMap<FixedAssetUpdateDto, FixedAsset>();
         }
     }
 }

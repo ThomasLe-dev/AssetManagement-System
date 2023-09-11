@@ -2,6 +2,7 @@
 using MISA.WebFresher052023.HCSN.Domain;
 using MISA.WebFresher052023.HCSN.Domain.Interface;
 using MISA.WebFresher052023.HCSN.Domain.Model;
+using MISA.WebFresher052023.HCSN.Domain.Model.Fixed_Asset_Model;
 using MISA.WebFresher052023.HCSN.Infrastructure.Repository.Base;
 using MISA.WebFresher052023.HCSN.Infrastructure.UnitOfWork;
 using MySqlConnector;
@@ -152,6 +153,39 @@ namespace MISA.WebFresher052023.HCSN.Infrastructure
             // Trả về mảng byte chứa dữ liệu tệp Excel
             return contentFile;
         }
+
+        /// <summary>
+        /// Truy vấn cơ sở dữ liệu để lọc dữ liệu tài sản cố định cho việc chuyển giao.
+        /// </summary>
+        /// <param name="pageNumber">Số trang hiện tại.</param>
+        /// <param name="pageLimit">Số lượng bản ghi trên mỗi trang.</param>
+        /// <param name="ids">Danh sách các ID cần lọc (có thể là một chuỗi danh sách).</param>
+        /// <returns>Đối tượng chứa danh sách tài sản cố định và tổng số bản ghi.</returns>
+        /// Created by: LB.Thành (09/09/2023)
+        public async Task<FixedAssetForTransferModel> FilterFixedAssetForTransfer(int? pageNumber, int? pageLimit, string ids)
+        {
+            var procedureName = "Proc_FilterFixedAssetForTransfer";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("p_PageNumber", pageNumber);
+            parameters.Add("p_PageLimit", pageLimit);
+            parameters.Add("p_List", ids);
+
+            parameters.Add("p_Count", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+            var entities = await _uow.Connection.QueryAsync<FixedAssetModel>(procedureName, parameters, commandType: CommandType.StoredProcedure, transaction: _uow.Transaction);
+
+            var total = parameters.Get<int>("p_Count");
+
+            var fixedAssetPagingModel = new FixedAssetForTransferModel
+            {
+                TotalRecords = total,
+                FixedAssetModels = entities.ToList()
+            };
+
+            return fixedAssetPagingModel;
+        }
+
 
         #endregion
 

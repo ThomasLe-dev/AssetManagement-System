@@ -18,7 +18,7 @@ namespace MISA.WebFresher052023.HCSN.Application.Tests.Service
         // Khởi tạo các dependency cần thiết cho unit test
         public IFixedAssetRepository assetRepository { get; set; }
         public IMapper mapper { get; set; }
-        public IFixedAssetManager assetManager { get; set; }
+        public IEntityManager assetManager { get; set; }
         public IUnitOfWork UnitOfWork { get; set; }
         #endregion
 
@@ -28,7 +28,7 @@ namespace MISA.WebFresher052023.HCSN.Application.Tests.Service
             // Sử dụng NSubstitute để tạo các instance giả lập cho các dependency
             assetRepository = NSubstitute.Substitute.For<IFixedAssetRepository>();
             mapper = NSubstitute.Substitute.For<IMapper>();
-            assetManager = NSubstitute.Substitute.For<IFixedAssetManager>();
+            assetManager = NSubstitute.Substitute.For<IEntityManager>();
         }
 
         /// <summary>

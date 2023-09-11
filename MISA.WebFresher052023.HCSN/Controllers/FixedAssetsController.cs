@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MISA.WebFresher052023.HCSN.Application.DTO;
+using MISA.WebFresher052023.HCSN.Application.DTO.AssetDto;
 using MISA.WebFresher052023.HCSN.Application.DTO.AssetDTO;
 using MISA.WebFresher052023.HCSN.Application.Interface;
 using MISA.WebFresher052023.HCSN.Application.Service;
@@ -13,7 +14,7 @@ namespace MISA.WebFresher052023.HCSN.Controllers
     [Route("api/v1/[controller]")]
     [ApiController]
     [Produces("application/json")]
-    public class FixedAssetsController : BaseController<AssetDto, AssetCreateDto, AssetUpdateDto>
+    public class FixedAssetsController : BaseController<FixedAssetDto, FixedAssetCreateDto, FixedAssetUpdateDto>
     {
         #region Fields
         private readonly IFixedAssetService _assetService;
@@ -61,6 +62,21 @@ namespace MISA.WebFresher052023.HCSN.Controllers
 
             // Trả về tệp Excel để tải về
             return File(contentFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Danh_Sach_Tai_San.xlsx");
+        }
+
+        /// <summary>
+        /// Lấy danh sách tài sản có loại những bản ghi đã chọn để hiện thị trên form chọn tài sản cho chứng từ
+        /// </summary>
+        /// <param name="pageNumber">Số trang</param>
+        /// <param name="pageLimit">Số lượng tối đa bản ghi mỗi trang</param>
+        /// <param name="dtos">Danh sách truyền vào để loại những bản ghi đó ra</param>
+        /// <returns>Danh sách loại tài sản đáp ứng đúng các điều kiện trên</returns>
+        /// Created by: LB.Thành (06/09/2023)
+        [HttpPost("FilterForTransfer")]
+        public async Task<IActionResult> FilterForTransfer([FromBody] FixedAssetForTransferDto dtos)
+        {
+            var assetList = await _assetService.FilterFixedAssetForTransfer(dtos.pageNumber, dtos.pageLimit, dtos.FixedAssetDtos);
+            return StatusCode(StatusCodes.Status200OK, assetList);
         }
 
     }

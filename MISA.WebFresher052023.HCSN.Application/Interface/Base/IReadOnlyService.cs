@@ -10,17 +10,17 @@ namespace MISA.WebFresher052023.HCSN.Application.Interface.Base
     public interface IReadOnlyService<TEntityDto>
     {
         /// <summary>
-        /// Lấy tất cả tài sản từ db
+        /// Lấy tất cả bản ghi từ db
         /// </summary>
-        /// <returns>tất cả tài sản</returns>
+        /// <returns>tất cả bản ghi</returns>
         /// created by: LB.Thành (16/07/2023)
         Task<IEnumerable<TEntityDto>> GetAllAsync();
 
         /// <summary>
-        /// Lấy về 1 tài sản theo Id
+        /// Lấy về 1 bản ghi theo Id
         /// </summary>
-        /// <param name="id">Id của tài sản muốn lấy</param>
-        /// <returns>1 tài sản</returns>
+        /// <param name="id">Id của bản ghi muốn lấy</param>
+        /// <returns>1 bản ghi</returns>
         /// created by: LB.Thành (16/07/2023)
         Task<TEntityDto> GetAsync(Guid id);
     }

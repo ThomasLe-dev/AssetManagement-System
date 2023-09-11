@@ -20,7 +20,7 @@ namespace MISA.WebFresher052023.HCSN.Application
         #endregion
 
         #region Constructor
-        protected BaseService(IBaseRepository<TEntity> baseRepository, IMapper mapper, IUnitOfWork unitOfWork) : base(baseRepository, mapper)
+        public BaseService(IBaseRepository<TEntity> baseRepository, IMapper mapper, IUnitOfWork unitOfWork) : base(baseRepository, mapper)
         {
             _baseRepository = baseRepository;
             _unitOfWork = unitOfWork;

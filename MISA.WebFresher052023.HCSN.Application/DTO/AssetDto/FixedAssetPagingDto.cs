@@ -19,6 +19,6 @@ namespace MISA.WebFresher052023.HCSN.Application.DTO
         /// Danh sách tài sản trong một trang
         /// </summary>
         /// Created By: LB.Thành (08/08/2023)
-        public IEnumerable<AssetDto> FixedAssets { get; set; }
+        public IEnumerable<FixedAssetDto> FixedAssets { get; set; }
     }
 }

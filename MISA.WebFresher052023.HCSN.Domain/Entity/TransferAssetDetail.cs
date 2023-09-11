@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher052023.HCSN.Domain.Entity
 {
-    public class TransferAssetDetail : BaseAudit
+    public class TransferAssetDetail : BaseAudit, IHasKey
     {
+        /// <summary>
+        /// Id chi tiết chứng từ
+        /// </summary>
+        public Guid TransferAssetDetailId { get; set; }
         /// <summary>
         /// Id của tài sản
         /// </summary>
@@ -31,11 +35,11 @@ namespace MISA.WebFresher052023.HCSN.Domain.Entity
         /// <summary>
         /// Id của phòng ban
         /// </summary>
-        public Guid DepartmentId { get; set; }
+        public Guid OldDepartmentId { get; set; }
         /// <summary>
         /// Tên phòng ban
         /// </summary>
-        public string DepartmentName { get; set;}
+        public string OldDepartmentName { get; set;}
         /// <summary>
         /// Id của bộ phận điều chuyển
         /// </summary>
@@ -52,5 +56,10 @@ namespace MISA.WebFresher052023.HCSN.Domain.Entity
         /// Chứng từ
         /// </summary>
         public Guid TransferAssetId { get; set; }
+
+        public Guid GetKey()
+        {
+            return TransferAssetDetailId;
+        }
     }
 }

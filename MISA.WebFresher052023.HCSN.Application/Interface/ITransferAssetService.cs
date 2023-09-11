@@ -20,7 +20,7 @@ namespace MISA.WebFresher052023.HCSN.Application.Interface
         /// </summary>
         /// <param name="entity">chi tiết của chứng từ mới</param>
         /// created by: LB.Thành (16/07/2023)
-        Task CreateAsync(TransferAssetCreateDto entityCreateDto);
+        Task<bool> CreateAsync(TransferAssetCreateDto entityCreateDto);
 
         /// <summary>
         /// Chỉnh sửa 1 chứng từ

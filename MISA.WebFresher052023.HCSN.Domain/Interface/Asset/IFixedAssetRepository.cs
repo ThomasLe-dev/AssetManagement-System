@@ -1,5 +1,6 @@
 ﻿using MISA.WebFresher052023.HCSN.Domain.Interface.Base;
 using MISA.WebFresher052023.HCSN.Domain.Model;
+using MISA.WebFresher052023.HCSN.Domain.Model.Fixed_Asset_Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,5 +39,15 @@ namespace MISA.WebFresher052023.HCSN.Domain.Interface
         /// <returns>Mảng byte chứa dữ liệu của file Excel.</returns>
         /// Created by: LB.Thành (06/08/2023)
         public byte[] ExportFixedAssetListToExcel(IEnumerable<FixedAssetExcelModel> fixedAssetExcelModels);
+
+        /// <summary>
+        /// Truy vấn cơ sở dữ liệu để lọc dữ liệu tài sản cố định cho việc chuyển giao.
+        /// </summary>
+        /// <param name="pageNumber">Số trang hiện tại.</param>
+        /// <param name="pageLimit">Số lượng bản ghi trên mỗi trang.</param>
+        /// <param name="ids">Danh sách các ID cần lọc (có thể là một chuỗi danh sách).</param>
+        /// <returns>Đối tượng chứa danh sách tài sản cố định và tổng số bản ghi.</returns>
+        /// Created by: LB.Thành (09/09/2023)
+        public Task<FixedAssetForTransferModel> FilterFixedAssetForTransfer(int? pageNumber, int? pageLimit, string ids);
     }
 }

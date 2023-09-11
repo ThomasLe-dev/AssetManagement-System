@@ -19,5 +19,13 @@ namespace MISA.WebFresher052023.HCSN.Domain.Interface
         /// <returns>danh sách chứng từ phân trang và tổng số bản ghi</returns>
         /// Created by: LB.Thành (28/08/2023)
         Task<TransferAssetPagingModel> GetPagingTransferAsset(TransferAssetFilterModel model);
+
+        /// <summary>
+        /// Tìm kiếm một chứng từ dựa trên code.
+        /// </summary>
+        /// <param name="code">code của tài sản cần tìm.</param>
+        /// <returns>Thông tin tài sản hoặc null nếu không tìm thấy.</returns>
+        /// Created by: LB.Thành (26/08/2023)
+        Task<TransferAsset?> FindByCode(string code);
     }
 }
