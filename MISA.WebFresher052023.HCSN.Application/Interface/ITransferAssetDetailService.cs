@@ -1,5 +1,6 @@
 ﻿using MISA.WebFresher052023.HCSN.Application.DTO.Receiver;
 using MISA.WebFresher052023.HCSN.Application.DTO.TransferAssetDetail;
+using MISA.WebFresher052023.HCSN.Domain.Model.Transfer_Asset_Detail_Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,5 +37,11 @@ namespace MISA.WebFresher052023.HCSN.Application.Interface
         /// <param name="id">List Ids chi tiết chứng từ cần xóa</param>
         /// created by: LB.Thành (16/07/2023)
         Task DeleteManyAsync(List<Guid> ids);
+        /// <summary>
+        /// Lấy số bản ghi phân trang
+        /// </summary>
+        /// <param name="model"></param>
+        /// created by: LB.Thành (16/07/2023)
+        public Task<TransferAssetDetailPagingDto> GetAllByTransferAssetAsync(TransferAssetDetailFilterDto model);
     }
 }

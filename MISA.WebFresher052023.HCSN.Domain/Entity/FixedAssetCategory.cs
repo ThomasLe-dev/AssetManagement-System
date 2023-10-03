@@ -63,5 +63,10 @@ namespace MISA.WebFresher052023.HCSN.Domain.Entity
         {
             return FixedAssetCategoryId;
         }
+
+        public Guid SetKey(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

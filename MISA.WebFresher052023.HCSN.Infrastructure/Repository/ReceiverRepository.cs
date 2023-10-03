@@ -5,6 +5,7 @@ using MISA.WebFresher052023.HCSN.Domain.Interface;
 using MISA.WebFresher052023.HCSN.Infrastructure.Repository.Base;
 using MISA.WebFresher052023.HCSN.Infrastructure.UnitOfWork;
 using System;
+using System.Data;
 using static Dapper.SqlMapper;
 
 namespace MISA.WebFresher052023.HCSN.Infrastructure.Repository
@@ -89,6 +90,34 @@ namespace MISA.WebFresher052023.HCSN.Infrastructure.Repository
             string fields = string.Join(", ", typeof(Receiver).GetProperties().Select(prop => prop.Name));
             string values = string.Join(", ", typeof(Receiver).GetProperties().Select(prop => $"@{prop.Name}"));
             return $"Insert into {TableName} ({fields}) values ({values})";
+        }
+
+        /// <summary>
+        /// Lấy toàn bộ bản ghi theo Id của chứng từ
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns>toàn bộ bản ghi theo Id của chứng từ</returns>
+        /// Created by: LB.Thành (10/09/2023)
+        public async Task<List<Receiver>> GetListReceiverByTransferAsset(List<Guid> ids)
+        {
+            var query = $"SELECT * FROM Receiver  WHERE TransferAssetId in @ListIds";
+            var parameters = new DynamicParameters();
+            parameters.Add("ListIds", ids);
+
+            var result = await _uow.Connection.QueryAsync<Receiver>(query, parameters, transaction: _uow.Transaction);
+            return result.ToList();
+        }
+
+        /// <summary>
+        /// Lấy phòng ban giao nhận mới nhất
+        /// </summary>
+        /// <returns></returns>
+        /// Created by: LB.Thành (14/09/2023)
+        public async Task<List<Receiver>> GetNewestReceiver()
+        {
+            string procedureName = "Proc_GetNewestReceiver";
+            var receivers = await _uow.Connection.QueryAsync<Receiver>(procedureName, commandType: CommandType.StoredProcedure, transaction: _uow.Transaction);
+            return receivers.ToList();
         }
         #endregion
     }

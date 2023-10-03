@@ -124,6 +124,17 @@ namespace MISA.WebFresher052023.HCSN.Application.Service
             return result;
         }
 
+        /// <summary>
+        /// Lấy phòng ban giao nhận mới nhất
+        /// </summary>
+        /// <returns></returns>
+        /// Created by: LB.Thành (14/09/2023)
+        public async Task<List<Receiver>> GetNewestReceiverAsync()
+        {
+            var entities = await _receiverRepository.GetNewestReceiver();
+            return entities;
+        }
+
         #endregion
     }
 }

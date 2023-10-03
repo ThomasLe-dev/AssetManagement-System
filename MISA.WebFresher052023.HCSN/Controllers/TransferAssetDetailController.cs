@@ -20,7 +20,13 @@ namespace MISA.WebFresher052023.HCSN.Controllers
         }
         #endregion
         [HttpGet] 
-        public async Task<IActionResult> GetAllByTransferAssetAsync([FromQuery] Guid id)
+        public async Task<IActionResult> GetAllByTransferAssetAsync([FromQuery] TransferAssetDetailFilterDto dto)
+        {
+            var result = await _transferAssetDetailService.GetAllByTransferAssetAsync(dto);
+            return Ok(result);
+        }
+        [HttpGet("Details")]
+        public async Task<IActionResult> GetAllByTransferAssetIdAsync([FromQuery] Guid id)
         {
             var result = await _transferAssetDetailService.GetAllByTransferAsset(id);
             return Ok(result);

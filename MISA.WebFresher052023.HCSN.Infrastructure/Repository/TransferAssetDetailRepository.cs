@@ -1,9 +1,13 @@
 ﻿using Dapper;
 using MISA.WebFresher052023.HCSN.Domain.Entity;
 using MISA.WebFresher052023.HCSN.Domain.Interface;
+using MISA.WebFresher052023.HCSN.Domain.Model.Transfer_Asset_Detail_Model;
+using MISA.WebFresher052023.HCSN.Domain.Model.Transfer_Asset_Model;
 using MISA.WebFresher052023.HCSN.Infrastructure.Repository.Base;
+using MISA.WebFresher052023.HCSN.Infrastructure.UnitOfWork;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,14 +28,31 @@ namespace MISA.WebFresher052023.HCSN.Infrastructure.Repository
         #endregion
 
         #region Methods
-        public async Task<IEnumerable<TransferAssetDetail>> GetAllByTransferAsset(Guid id)
+        public async Task<TransferAssetDetailPagingModel> GetAllByTransferAsset(TransferAssetDetailFilterModel model)
         {
-            var query = $"SELECT * FROM TransferAssetDetail  WHERE TransferAssetId = @id";
-            var parameters = new DynamicParameters();
-            parameters.Add("id", id);
+            // Tên stored procedure trong database để lấy dữ liệu phân trang 
+            var procname = $"Proc_GetAllDetailsPagingByTransfer";
 
-            var result = await _uow.Connection.QueryAsync<TransferAssetDetail>(query, parameters, transaction: _uow.Transaction);
-            return result;
+            // Tạo các tham số động cho stored procedure
+            var parameters = new DynamicParameters();
+            foreach (var property in typeof(TransferAssetDetailFilterModel).GetProperties())
+            {
+                parameters.Add(property.Name, property.GetValue(model));
+            }
+            // Thêm một tham số để lấy tổng số bản ghi 
+            parameters.Add("DetailsTotal", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            var transferAssetDetailEntities = await _uow.Connection.QueryAsync<TransferAssetDetail>(procname, parameters, commandType: CommandType.StoredProcedure, transaction: _uow.Transaction);
+
+            // Lấy tổng số bản ghi từ tham số đầu ra
+            var transferAssetDetailTotal = parameters.Get<int>("DetailsTotal");
+
+            var transferAssetDetailPaging = new TransferAssetDetailPagingModel
+            {
+                TotalRecords = transferAssetDetailTotal,
+                Entities = transferAssetDetailEntities
+            };
+
+            return transferAssetDetailPaging;
         }
 
         /// <summary>
@@ -91,7 +112,40 @@ namespace MISA.WebFresher052023.HCSN.Infrastructure.Repository
 
             // Trả về true nếu có ít nhất một bản ghi được cập nhật thành công
             return affectedRows > 0;
-        } 
+        }
+
+        /// <summary>
+        /// Lấy danh sách các bản ghi trong danh sách id
+        /// </summary>
+        /// <param name="ids">Danh sách id của các bản ghi cần lấy dữ liệu</param>
+        /// <returns>Danh sách bản ghi</returns>
+        /// Created by: LB.Thành (06/09/2023)
+        public async Task<List<TransferAssetDetail>> GetListDetailByIdsAsync(List<Guid> ids)
+        {
+            string listId = "";
+            if (ids != null && ids.Count > 0)
+            {
+                listId = string.Join(",", ids.Select(id => id.ToString()));
+            }
+            string procedureName = "Proc_GetTransferDetaiByAssetId";
+            var parameters = new
+            {
+                p_List = listId
+            };
+
+            var entities = await _uow.Connection.QueryAsync<TransferAssetDetail>(procedureName, parameters, commandType: CommandType.StoredProcedure, transaction: _uow.Transaction);
+            return entities.ToList();
+        }
+
+        public async Task<IEnumerable<TransferAssetDetail>> GetAllByTransferAsset(Guid id)
+        {
+            var query = $"SELECT * FROM TransferAssetDetail  WHERE TransferAssetId = @id";
+            var parameters = new DynamicParameters();
+            parameters.Add("id", id);
+
+            var result = await _uow.Connection.QueryAsync<TransferAssetDetail>(query, parameters, transaction: _uow.Transaction);
+            return result;
+        }
         #endregion
     }
 }

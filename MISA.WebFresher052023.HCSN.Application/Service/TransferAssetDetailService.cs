@@ -4,6 +4,8 @@ using MISA.WebFresher052023.HCSN.Application.DTO.TransferAssetDetail;
 using MISA.WebFresher052023.HCSN.Application.Interface;
 using MISA.WebFresher052023.HCSN.Domain.Entity;
 using MISA.WebFresher052023.HCSN.Domain.Interface;
+using MISA.WebFresher052023.HCSN.Domain.Model.Transfer_Asset_Detail_Model;
+using MISA.WebFresher052023.HCSN.Domain.Model.Transfer_Asset_Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -114,7 +116,22 @@ namespace MISA.WebFresher052023.HCSN.Application.Service
                 await _unitOfWork.RollbackAsync();
                 throw;
             }
-        } 
+        }
+
+        /// <summary>
+        /// Lấy các chi tiết chứng từ theo Id chuwsng từ phân trang
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// Created by: LB.Thành (14/09/2023)
+        public async Task<TransferAssetDetailPagingDto> GetAllByTransferAssetAsync(TransferAssetDetailFilterDto dto)
+        {
+            var transferAssetFilterEntity = _mapper.Map<TransferAssetDetailFilterModel>(dto);
+            var transferAssetPagingEntity = await _transferAssetDetailRepository.GetAllByTransferAsset(transferAssetFilterEntity);
+
+            var transferAssetDetailPagingDto = _mapper.Map<TransferAssetDetailPagingDto>(transferAssetPagingEntity);
+            return transferAssetDetailPagingDto;
+        }
         #endregion
     }
 }

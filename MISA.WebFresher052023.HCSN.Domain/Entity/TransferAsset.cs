@@ -23,7 +23,7 @@ namespace MISA.WebFresher052023.HCSN.Domain.Entity
         /// <summary>
         /// Ngày điều chuyển
         /// </summary>
-        public DateTime? TransferDate { get; set;}
+        public DateTime TransferDate { get; set;}
         /// <summary>
         /// Nguyên giá
         /// </summary>
@@ -40,6 +40,11 @@ namespace MISA.WebFresher052023.HCSN.Domain.Entity
         public Guid GetKey()
         {
             return (Guid)TransferAssetId;
+        }
+
+        public Guid SetKey(Guid id)
+        {
+            return (Guid)(TransferAssetId = id);
         }
     }
 }

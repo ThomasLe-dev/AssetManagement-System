@@ -61,5 +61,10 @@ namespace MISA.WebFresher052023.HCSN.Domain.Entity
         {
             return TransferAssetDetailId;
         }
+
+        public Guid SetKey(Guid id)
+        {
+            return (Guid)(TransferAssetDetailId = id);
+        }
     }
 }

@@ -69,7 +69,7 @@ builder.Services.AddScoped<IUnitOfWork>(provider => new UnitOfWork(connectionStr
 //Fixed Asset
 builder.Services.AddScoped<IFixedAssetRepository, FixedAssetRepository>();
 builder.Services.AddScoped<IFixedAssetService, FixedAssetService>();
-builder.Services.AddScoped<IEntityManager, FixedAssetManager>();
+builder.Services.AddScoped<IFixedAssetManager, FixedAssetManager>();
 //Department
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
@@ -87,6 +87,7 @@ builder.Services.AddScoped<IReceiverRepository, ReceiverRepository>();
 //TransferAssetDetail
 builder.Services.AddScoped<ITransferAssetDetailService, TransferAssetDetailService>();
 builder.Services.AddScoped<ITransferAssetDetailRepository, TransferAssetDetailRepository>();
+builder.Services.AddScoped<ITransferAssetDetailManager, TransferAssetDetailManager>();
 
 builder.Services.AddCors(p => p.AddPolicy("MyCors", build =>
 {

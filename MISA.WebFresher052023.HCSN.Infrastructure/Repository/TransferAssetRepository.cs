@@ -5,6 +5,7 @@ using MISA.WebFresher052023.HCSN.Domain.Interface;
 using MISA.WebFresher052023.HCSN.Domain.Model;
 using MISA.WebFresher052023.HCSN.Domain.Model.Transfer_Asset_Model;
 using MISA.WebFresher052023.HCSN.Infrastructure.Repository.Base;
+using MISA.WebFresher052023.HCSN.Infrastructure.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -79,6 +80,86 @@ namespace MISA.WebFresher052023.HCSN.Infrastructure.Repository
 
             var result = await _uow.Connection.QueryFirstOrDefaultAsync<TransferAsset>(query, parameters, transaction: _uow.Transaction);
             return result;
+        }
+        /// <summary>
+        /// Lấy code mơi cho chứng từ
+        /// </summary>
+        /// <returns></returns>
+        /// Created b: LB.Thành (10/09/2023)
+        public async Task<string> GetNewTransferAssetCode()
+        {
+            var procname = $"Proc_GetNewTransferAssetCode";
+            var transferAssetCode = await _uow.Connection.QueryFirstOrDefaultAsync<string>(procname, commandType: CommandType.StoredProcedure, transaction: _uow.Transaction);
+            return transferAssetCode;
+        }
+
+        /// <summary>
+        /// Lấy chứng từ mới nhất trong những chứng từ mà tài sản có
+        /// </summary>
+        /// <param name="assetIds">Danh sách id của tài sản</param>
+        /// <returns>Chứng từ mới nhất trong đống tài sản</returns>
+        /// Created by: LB.Thành (07/09/2023)
+        public async Task<List<TransferAsset>> GetNewestTransferAssetByAssetId(List<Guid> assetIds)
+        {
+            string listAssetId = "";
+            if (assetIds != null && assetIds.Count > 0)
+            {
+                listAssetId = string.Join(",", assetIds.Select(assetId => assetId.ToString()));
+            }
+
+            string procedureName = "Proc_GetNewestTransferAssetByAssetId";
+            var paramName = "p_List";
+            var dynamicParams = new DynamicParameters();
+            dynamicParams.Add(paramName, listAssetId);
+
+            var transferAsset = await _uow.Connection.QueryAsync<TransferAsset>(procedureName, dynamicParams, commandType: CommandType.StoredProcedure, transaction: _uow.Transaction);
+            return transferAsset.ToList();
+        }
+
+        /// <summary>
+        /// Truyền vào 1 danh sách chứng từ, tìm các tài sản trong chứng từ đó, rồi tìm tất cả các chứng từ có chứa các tài sản này
+        /// </summary>
+        /// <param name="transferAssetIds">Danh sách id chứng từ</param>
+        /// <returns>Danh sách chứng từ của các tài sản trong các chứng từ truyền vào</returns>
+        /// Created by: LB.Thành (09/09/2023)
+        public async Task<List<TransferAssetDeleteModel>> GetAllTransferAssetOfAsset(List<Guid> transferAssetIds)
+        {
+            string listAssetId = "";
+            if (transferAssetIds != null && transferAssetIds.Count > 0)
+            {
+                listAssetId = string.Join(",", transferAssetIds.Select(transferAssetId => transferAssetId.ToString()));
+            }
+
+            string procedureName = "Proc_GetAllTransferAssetOfAsset";
+            var paramName = "p_List";
+            var dynamicParams = new DynamicParameters();
+            dynamicParams.Add(paramName, listAssetId);
+
+            var transferAsset = await _uow.Connection.QueryAsync<TransferAssetDeleteModel>(procedureName, dynamicParams, commandType: CommandType.StoredProcedure, transaction: _uow.Transaction);
+            return transferAsset.ToList();
+        }
+
+        /// <summary>
+        /// Lấy các chứng từ của các tài sản truyền đến
+        /// </summary>
+        /// <param name="assetIds">Danh sách id tài sản</param>
+        /// <returns>Danh sách chứng từ, có chứa id tài sản</returns>
+        /// Created by: LB.Thành (17/09/2023)
+        public async Task<List<TransferAssetDeleteModel>> GetAllTransferAssetByAssetId(List<Guid> assetIds)
+        {
+            string listAssetId = "";
+            if (assetIds != null && assetIds.Count > 0)
+            {
+                listAssetId = string.Join(",", assetIds.Select(assetId => assetId.ToString()));
+            }
+
+            string procedureName = "Proc_GetTransferAssetByAssetId";
+            var paramName = "p_List";
+            var dynamicParams = new DynamicParameters();
+            dynamicParams.Add(paramName, listAssetId);
+
+            var transferAsset = await _uow.Connection.QueryAsync<TransferAssetDeleteModel>(procedureName, dynamicParams, commandType: CommandType.StoredProcedure, transaction: _uow.Transaction);
+            return transferAsset.ToList();
         }
     }
 }

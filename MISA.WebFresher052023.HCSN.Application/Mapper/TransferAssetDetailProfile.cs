@@ -1,6 +1,10 @@
 ﻿using AutoMapper;
 using MISA.WebFresher052023.HCSN.Application.DTO.TransferAssetDetail;
+using MISA.WebFresher052023.HCSN.Application.DTO.TransferAssetDto;
 using MISA.WebFresher052023.HCSN.Domain.Entity;
+using MISA.WebFresher052023.HCSN.Domain.Model;
+using MISA.WebFresher052023.HCSN.Domain.Model.Transfer_Asset_Detail_Model;
+using MISA.WebFresher052023.HCSN.Domain.Model.Transfer_Asset_Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +23,9 @@ namespace MISA.WebFresher052023.HCSN.Application.Mapper
         {
             CreateMap<TransferAssetDetail, TransferAssetDetailDto>().ReverseMap();
             CreateMap<TransferAssetDetail, TransferAssetDetailCreateDto>().ReverseMap();
+            CreateMap<TransferAssetDetailFilterDto, TransferAssetDetailFilterModel>().ReverseMap();
+            CreateMap<TransferAssetDetailPagingModel, TransferAssetDetailPagingDto>().ReverseMap();
+            CreateMap<TransferAssetDetail, TransferAssetDetailUpdateDto>().ReverseMap();
         }
     }
 }

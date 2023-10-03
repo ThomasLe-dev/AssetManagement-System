@@ -1,4 +1,5 @@
 ﻿using MISA.WebFresher052023.HCSN.Domain.Entity;
+using MISA.WebFresher052023.HCSN.Domain.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,5 +27,15 @@ namespace MISA.WebFresher052023.HCSN.Domain.Interface
         /// <exception cref="DataException">Lỗi data truyền về</exception>
         /// Created by: LB.Thành (06/09/2023)
         public void CheckTransferDate(TransferAsset? transferAsset);
+
+        /// <summary>
+        /// Kiểm tra ngày chứng từ của tài sản khi thực hiện các hành động tạo hoặc cập nhật.
+        /// </summary>
+        /// <param name="transferAsset">Chứng từ điều chuyển tài sản.</param>
+        /// <param name="listAssetIds">Danh sách ID của tài sản.</param>
+        /// <param name="actionMode">Chế độ hành động (CREATE hoặc UPDATE).</param>
+        /// <returns>Task.</returns>
+        /// Created by: LB.Thành (10/09/2023)
+        public Task CheckDateAsync(TransferAsset? transferAsset, List<Guid> listAssetIds, ActionMode actionMode);
     }
 }

@@ -26,5 +26,20 @@ namespace MISA.WebFresher052023.HCSN.Domain.Interface
         /// Created by: LB.Thành (06/09/2023)
         /// </created>
         public Task<bool> InsertMultiAsync(List<Receiver> entities);
+
+        /// <summary>
+        /// Lấy toàn bộ bản ghi theo Id của chứng từ
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns>toàn bộ bản ghi theo Id của chứng từ</returns>
+        /// Created by: LB.Thành (10/09/2023)
+        public Task<List<Receiver>> GetListReceiverByTransferAsset(List<Guid> ids);
+
+        /// <summary>
+        /// Lấy phòng ban giao nhận mới nhất
+        /// </summary>
+        /// <returns></returns>
+        /// Created by: LB.Thành (14/09/2023)
+        public Task<List<Receiver>> GetNewestReceiver();
     }
 }

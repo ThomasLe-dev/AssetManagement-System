@@ -1,4 +1,6 @@
 ﻿using MISA.WebFresher052023.HCSN.Domain;
+using MISA.WebFresher052023.HCSN.Domain.Resource;
+using System.Data;
 
 namespace MISA.WebFresher052023.HCSN
 {
@@ -12,22 +14,20 @@ namespace MISA.WebFresher052023.HCSN
         #endregion
 
         #region Constructor
-        /// <summary>
-        /// Khởi tạo một instance mới của ExceptionMiddleware
-        /// </summary>
-        /// <param name="next">Delegate tiếp theo trong pipeline</param>
-        /// Created by: LB.Thành (16/07/2023)
         public ExceptionMiddleware(RequestDelegate next)
         {
             _next = next;
         }
         #endregion
 
+        #region Methods
         /// <summary>
-        /// Phương thức Invoke xử lý ngoại lệ
+        /// Xử lý request và gọi chuỗi middleware tiếp theo trong pipeline
+        /// Nếu trong quá trình thực thi xảy ra ngoại lệ, sẽ chuyển hướng đến phương thức HandleExceptionAsync để xử lý
         /// </summary>
-        /// <param name="context">HttpContext</param>
-        /// Created by: LB.Thành (16/07/2023)
+        /// <param name="context">HttpContext của request hiện tại</param>
+        /// <returns>Task</returns>
+        /// Created by: ldtuan (17/07/2023)
         public async Task Invoke(HttpContext context)
         {
             try
@@ -41,58 +41,90 @@ namespace MISA.WebFresher052023.HCSN
         }
 
         /// <summary>
-        /// Phương thức xử lý ngoại lệ và trả về response
+        /// Xử lý ngoại lệ và trả về thông tin lỗi dưới dạng JSON
         /// </summary>
-        /// <param name="context">HttpContext</param>
-        /// <param name="exception">Ngoại lệ</param>
-        /// Created by: LB.Thành (16/07/2023)
+        /// <param name="context">HttpContext của request hiện tại</param>
+        /// <param name="exception">Ngoại lệ được xử lý</param>
+        /// <returns>Task</returns>
+        /// Created by: ldtuan (17/07/2023)
         private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            Console.WriteLine(exception);
             context.Response.ContentType = "application/json";
 
-            if (exception is NotFoundException)
+            switch (exception)
             {
-                context.Response.StatusCode = StatusCodes.Status404NotFound;
-                await context.Response.WriteAsync(
-                    text: new BaseException()
+                // Xử lý ngoại lệ NotFoundException
+                case NotFoundException notFoundException:
+                    context.Response.StatusCode = StatusCodes.Status404NotFound;
+                    await context.Response.WriteAsync(new BaseException()
                     {
-                        ErrorCode = ((NotFoundException)exception).ErrorCode,
-                        UserMessage = ((NotFoundException)exception).Message,
+                        ErrorCode = notFoundException.ErrorCode,
+                        UserMessage = ErrorMessages.NotFound,
                         DevMessage = exception.Message,
                         TraceId = context.TraceIdentifier,
                         MoreInfo = exception.HelpLink
-                    }.ToString() ?? ""
-                );
-            }
-            else if(exception is ConflictException)
-            {
-                context.Response.StatusCode = StatusCodes.Status409Conflict;
-                await context.Response.WriteAsync(
-                    text: new BaseException()
+                    }.ToString() ?? "");
+                    break;
+
+                // Xử lý ngoại lệ ConflictException
+                case ConflictException:
+                    context.Response.StatusCode = StatusCodes.Status409Conflict;
+                    await context.Response.WriteAsync(
+                        new BaseException()
+                        {
+                            ErrorCode = StatusCodes.Status409Conflict,
+                            UserMessage = exception.Message,
+                            DevMessage = exception.Message,
+                            TraceId = context.TraceIdentifier,
+                            MoreInfo = exception.HelpLink
+                        }.ToString() ?? "");
+                    break;
+
+                // Xử lý ngoại lệ ConflictException
+                case DataException:
+                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                    await context.Response.WriteAsync(
+                        new BaseException()
+                        {
+                            ErrorCode = StatusCodes.Status409Conflict,
+                            UserMessage = ErrorMessages.InvalidData,
+                            DevMessage = exception.Message,
+                            TraceId = context.TraceIdentifier,
+                            MoreInfo = exception.HelpLink
+                        }.ToString() ?? "");
+                    break;
+
+                // Xử lý ngoại lệ validate
+                case ValidateException:
+                    context.Response.StatusCode = StatusCodes.Status422UnprocessableEntity;
+                    var excep = (ValidateException)exception;
+                    await context.Response.WriteAsync(
+                        new BaseException()
+                        {
+                            ErrorCode = StatusCodes.Status422UnprocessableEntity,
+                            UserMessage = exception.Message,
+                            DevMessage = exception.Message,
+                            TraceId = context.TraceIdentifier,
+                            MoreInfo = excep.MoreInfo
+                        }.ToString() ?? "");
+                    break;
+
+                // Xử lý các ngoại lệ khác
+                default:
+                    context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                    await context.Response.WriteAsync(new BaseException()
                     {
-                        ErrorCode = ((ConflictException)exception).ErrorCode,
-                        UserMessage = ((ConflictException)exception).Message,
+                        ErrorCode = StatusCodes.Status500InternalServerError,
+                        UserMessage = ErrorMessages.ServerError,
                         DevMessage = exception.Message,
                         TraceId = context.TraceIdentifier,
                         MoreInfo = exception.HelpLink
-                    }.ToString() ?? ""
-                );
-            }
-            else
-            {
-                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                await context.Response.WriteAsync(
-                    text: new BaseException()
-                    {
-                        ErrorCode = context.Response.StatusCode,
-                        UserMessage = "Lỗi server",
-                        DevMessage = exception.Message,
-                        TraceId = context.TraceIdentifier,
-                        MoreInfo = exception.HelpLink
-                    }.ToString() ?? ""
-                );
+                    }.ToString() ?? "");
+                    break;
             }
         }
+        #endregion
+
+
     }
 }

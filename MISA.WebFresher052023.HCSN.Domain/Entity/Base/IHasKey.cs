@@ -13,5 +13,6 @@ namespace MISA.WebFresher052023.HCSN.Domain
         /// </summary>
         /// <returns>Id</returns>
         Guid GetKey();
+        Guid SetKey(Guid id);
     }
 }

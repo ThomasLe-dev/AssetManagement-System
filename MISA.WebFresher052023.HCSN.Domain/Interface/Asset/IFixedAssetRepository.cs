@@ -48,6 +48,6 @@ namespace MISA.WebFresher052023.HCSN.Domain.Interface
         /// <param name="ids">Danh sách các ID cần lọc (có thể là một chuỗi danh sách).</param>
         /// <returns>Đối tượng chứa danh sách tài sản cố định và tổng số bản ghi.</returns>
         /// Created by: LB.Thành (09/09/2023)
-        public Task<FixedAssetForTransferModel> FilterFixedAssetForTransfer(int? pageNumber, int? pageLimit, string ids);
+        public Task<FixedAssetForTransferModel> FilterFixedAssetForTransfer(int? pageNumber, int? pageLimit, string ids, string detailIds);
     }
 }

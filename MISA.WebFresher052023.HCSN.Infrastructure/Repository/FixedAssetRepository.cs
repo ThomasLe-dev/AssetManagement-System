@@ -162,7 +162,7 @@ namespace MISA.WebFresher052023.HCSN.Infrastructure
         /// <param name="ids">Danh sách các ID cần lọc (có thể là một chuỗi danh sách).</param>
         /// <returns>Đối tượng chứa danh sách tài sản cố định và tổng số bản ghi.</returns>
         /// Created by: LB.Thành (09/09/2023)
-        public async Task<FixedAssetForTransferModel> FilterFixedAssetForTransfer(int? pageNumber, int? pageLimit, string ids)
+        public async Task<FixedAssetForTransferModel> FilterFixedAssetForTransfer(int? pageNumber, int? pageLimit, string ids, string detailIds)
         {
             var procedureName = "Proc_FilterFixedAssetForTransfer";
 
@@ -170,6 +170,7 @@ namespace MISA.WebFresher052023.HCSN.Infrastructure
             parameters.Add("p_PageNumber", pageNumber);
             parameters.Add("p_PageLimit", pageLimit);
             parameters.Add("p_List", ids);
+            parameters.Add("p_ListDetail", detailIds);
 
             parameters.Add("p_Count", dbType: DbType.Int32, direction: ParameterDirection.Output);
 

@@ -6,6 +6,7 @@ using MISA.WebFresher052023.HCSN.Application.Interface;
 using MISA.WebFresher052023.HCSN.Application.Service;
 using MISA.WebFresher052023.HCSN.Controllers.Base;
 using MISA.WebFresher052023.HCSN.Domain;
+using MISA.WebFresher052023.HCSN.Domain.Enum;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -75,8 +76,22 @@ namespace MISA.WebFresher052023.HCSN.Controllers
         [HttpPost("FilterForTransfer")]
         public async Task<IActionResult> FilterForTransfer([FromBody] FixedAssetForTransferDto dtos)
         {
-            var assetList = await _assetService.FilterFixedAssetForTransfer(dtos.pageNumber, dtos.pageLimit, dtos.FixedAssetDtos);
+            var assetList = await _assetService.FilterFixedAssetForTransfer(dtos.pageNumber, dtos.pageLimit, dtos.FixedAssetDtos, dtos.transferAssetDetailIds);
             return StatusCode(StatusCodes.Status200OK, assetList);
+        }
+
+
+        /// <summary>
+        /// Check xem tài sản có phát sinh chứng từ hay không 
+        /// </summary>
+        /// <param name="assetIds"></param>
+        /// <param name="action"></param>
+        /// Created by: LB.Thành (14/09/2023)
+        [HttpPost("CheckTransfer")]
+        public async Task<IActionResult> CheckExistTransferAsync([FromBody] List<Guid> assetIds,[FromQuery] ActionMode action)
+        {
+            await _assetService.CheckExistTransferAsync(assetIds, action);
+            return StatusCode(StatusCodes.Status200OK);
         }
 
     }

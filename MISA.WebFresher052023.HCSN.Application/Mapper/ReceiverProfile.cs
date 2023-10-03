@@ -15,6 +15,7 @@ namespace MISA.WebFresher052023.HCSN.Application.Mapper
         {
             CreateMap<Receiver, ReceiverDto>().ReverseMap();
             CreateMap<Receiver, ReceiverCreateDto>().ReverseMap();
+            CreateMap<Receiver, ReceiverUpdateDto>().ReverseMap();
         }
     }
 }

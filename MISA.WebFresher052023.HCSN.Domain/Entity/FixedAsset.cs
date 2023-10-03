@@ -152,6 +152,11 @@ namespace MISA.WebFresher052023.HCSN.Domain
         {
             return FixedAssetId;
         }
+
+        public Guid SetKey(Guid id)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

@@ -37,5 +37,12 @@ namespace MISA.WebFresher052023.HCSN.Application.Interface
         /// <param name="id">List Ids người nhận cần xóa</param>
         /// created by: LB.Thành (16/07/2023)
         Task DeleteManyAsync(List<Guid> ids);
+
+        /// <summary>
+        /// Lấy phòng ban giao nhận mới nhất
+        /// </summary>
+        /// <returns></returns>
+        /// Created by: LB.Thành (14/09/2023)
+        public Task<List<Receiver>> GetNewestReceiverAsync();
     }
 }

@@ -37,5 +37,10 @@ namespace MISA.WebFresher052023.HCSN.Domain.Entity
         {
             return ReceiverId;
         }
+
+        public Guid SetKey(Guid id)
+        {
+            return ReceiverId = id;
+        }
     }
 }

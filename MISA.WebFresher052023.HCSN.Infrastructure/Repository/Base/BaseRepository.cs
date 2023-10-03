@@ -44,7 +44,7 @@ namespace MISA.WebFresher052023.HCSN.Infrastructure.Repository.Base
                 param.Add(propertyName, propertyValue);
             }
 
-            await _uow.Connection.ExecuteAsync(procedure, param, commandType: CommandType.StoredProcedure);
+            await _uow.Connection.ExecuteAsync(procedure, param, commandType: CommandType.StoredProcedure, transaction: _uow.Transaction);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace MISA.WebFresher052023.HCSN.Infrastructure.Repository.Base
                 param.Add(propertyName, propertyValue);
             }
 
-            await _uow.Connection.ExecuteAsync(procedure, param, commandType: CommandType.StoredProcedure);
+            await _uow.Connection.ExecuteAsync(procedure, param, commandType: CommandType.StoredProcedure, transaction: _uow.Transaction);
         }
 
         /// <summary>

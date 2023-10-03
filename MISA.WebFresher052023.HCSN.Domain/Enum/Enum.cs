@@ -15,6 +15,10 @@ namespace MISA.WebFresher052023.HCSN.Domain.Enum
         /// <summary>
         /// Hành động xóa
         /// </summary>
-        DELETE = 2
+        DELETE = 2,
+        /// <summary>
+        /// không thay đổi
+        /// </summary>
+        UNCHANGE = 3
     }
 }

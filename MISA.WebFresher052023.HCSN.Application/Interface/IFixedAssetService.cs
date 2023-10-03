@@ -3,6 +3,7 @@ using MISA.WebFresher052023.HCSN.Application.DTO.AssetDTO;
 using MISA.WebFresher052023.HCSN.Application.Interface.Base;
 using MISA.WebFresher052023.HCSN.Application.Response;
 using MISA.WebFresher052023.HCSN.Domain;
+using MISA.WebFresher052023.HCSN.Domain.Enum;
 using MISA.WebFresher052023.HCSN.Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,15 @@ namespace MISA.WebFresher052023.HCSN.Application.Interface
         /// <param name="dtos">Danh sách truyền vào để loại những bản ghi đó ra</param>
         /// <returns>Danh sách loại tài sản đáp ứng đúng các điều kiện trên</returns>
         /// Created by: LB.Thành (09/09/2023)
-        public Task<BaseFilterResponse<FixedAssetDto>> FilterFixedAssetForTransfer(int? pageNumber, int? pageLimit, List<FixedAssetDto> dtos);
+        public Task<BaseFilterResponse<FixedAssetDto>> FilterFixedAssetForTransfer(int? pageNumber, int? pageLimit, List<FixedAssetDto> dtos, List<Guid> transferAssetDetailIds);
+
+        /// <summary>
+        /// Kiểm tra tài sản có phát sinh chứng từ không
+        /// </summary>
+        /// <param name="assetIds">Danh sách id tài sản</param>
+        /// <param name="action">Hành động như xóa hay cập nhật</param>
+        /// <returns>Ném ra 1 ngoại lệ nếu có chứng từ phát sinh</returns>
+        /// Created by: ldtuan (17/09/2023)
+        public Task CheckExistTransferAsync(List<Guid> assetIds, ActionMode action);
     }
 }

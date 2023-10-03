@@ -13,7 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MISA.WebFresher052023.HCSN.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MISA.WebFresher052023.HCSN.Domain.Tests", "MISA.WebFresher052023.HCSN.Domain.Tests\MISA.WebFresher052023.HCSN.Domain.Tests.csproj", "{AF8BF38C-4093-4131-B0F9-71ED94ACA1A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MISA.WebFresher052023.HCSN.Application.Tests", "MISA.WebFresher052023.HCSN.Application.Tests\MISA.WebFresher052023.HCSN.Application.Tests.csproj", "{8B7B2A9A-381E-4B01-B75E-93EFD118AE40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MISA.WebFresher052023.HCSN.Application.Tests", "MISA.WebFresher052023.HCSN.Application.Tests\MISA.WebFresher052023.HCSN.Application.Tests.csproj", "{8B7B2A9A-381E-4B01-B75E-93EFD118AE40}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E3B57D9C-4732-487B-8527-F6E49C85A236}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,6 +4,7 @@ using MISA.WebFresher052023.HCSN.Application.DTO.AssetDTO;
 using MISA.WebFresher052023.HCSN.Application.Interface;
 using MISA.WebFresher052023.HCSN.Application.Response;
 using MISA.WebFresher052023.HCSN.Domain;
+using MISA.WebFresher052023.HCSN.Domain.Enum;
 using MISA.WebFresher052023.HCSN.Domain.Interface;
 using MISA.WebFresher052023.HCSN.Domain.Model;
 using MISA.WebFresher052023.HCSN.Domain.Model.Fixed_Asset_Model;
@@ -20,14 +21,14 @@ namespace MISA.WebFresher052023.HCSN.Application.Service
     {
         #region Fields
         private readonly IFixedAssetRepository _assetRepository;
-        private readonly IEntityManager _entityManager;
+        private readonly IFixedAssetManager _fixedAssetManager;
         #endregion
 
         #region Constructors
-        public FixedAssetService(IFixedAssetRepository assetRepository, IMapper mapper, IEntityManager entityManager, IUnitOfWork unitOfWork) : base(assetRepository, mapper, unitOfWork)
+        public FixedAssetService(IFixedAssetRepository assetRepository, IMapper mapper, IUnitOfWork unitOfWork, IFixedAssetManager fixedAssetManager) : base(assetRepository, mapper, unitOfWork)
         {
             _assetRepository = assetRepository;
-            _entityManager = entityManager;
+            _fixedAssetManager = fixedAssetManager;
         }
 
         #endregion
@@ -43,7 +44,7 @@ namespace MISA.WebFresher052023.HCSN.Application.Service
         {
             // Thực hiện kiểm tra nghiệp vụ trước khi tạo mới đối tượng Asset.
             // Kiểm tra xem có tài sản nào tồn tại với mã tài sản đã được cung cấp (entityCreateDto.FixedAssetCode) chưa.
-            await _entityManager.CheckExistedEntityByCode(entityCreateDto.FixedAssetCode);
+            await _fixedAssetManager.CheckExistedEntityByCode(entityCreateDto.FixedAssetCode);
 
             // Khởi tạo một đối tượng Asset mới để đưa dữ liệu từ AssetCreateDto vào.
             var asset = _mapper.Map<FixedAsset>(entityCreateDto);
@@ -66,7 +67,7 @@ namespace MISA.WebFresher052023.HCSN.Application.Service
             var oldAsset = await _baseRepository.GetAsync(id);
 
             // Thực hiện kiểm tra nghiệp vụ trước khi cập nhật đối tượng Asset.
-            await _entityManager.CheckExistedEntityByCode(entityUpdateDto.FixedAssetCode, oldAsset.FixedAssetCode);
+            await _fixedAssetManager.CheckExistedEntityByCode(entityUpdateDto.FixedAssetCode, oldAsset.FixedAssetCode);
 
             // Khởi tạo một đối tượng Asset mới để đưa dữ liệu từ AssetUpdateDto vào.
             var asset = _mapper.Map<FixedAsset>(entityUpdateDto);
@@ -144,7 +145,7 @@ namespace MISA.WebFresher052023.HCSN.Application.Service
         /// <param name="dtos">Danh sách truyền vào để loại những bản ghi đó ra</param>
         /// <returns>Danh sách loại tài sản đáp ứng đúng các điều kiện trên</returns>
         /// Created by: LB.Thành (09/09/2023)
-        public async Task<BaseFilterResponse<FixedAssetDto>> FilterFixedAssetForTransfer(int? pageNumber, int? pageLimit, List<FixedAssetDto> dtos)
+        public async Task<BaseFilterResponse<FixedAssetDto>> FilterFixedAssetForTransfer(int? pageNumber, int? pageLimit, List<FixedAssetDto> dtos, List<Guid> transferAssetDetailIds)
         {
             string ids = "";
             if (dtos != null && dtos.Count > 0)
@@ -152,11 +153,17 @@ namespace MISA.WebFresher052023.HCSN.Application.Service
                 ids = string.Join(",", dtos.Select(asset => asset.FixedAssetId));
             }
 
+            string detailIds = "";
+            if (transferAssetDetailIds != null && transferAssetDetailIds.Count > 0)
+            {
+                detailIds = string.Join(",", transferAssetDetailIds);
+            }
+
             List<FixedAssetModel> entities;
             pageNumber = pageNumber.HasValue && pageNumber.Value > 0 ? pageNumber : 1;
             pageLimit = pageLimit.HasValue && pageLimit.Value > 0 ? pageLimit : 20;
 
-            var model = await _assetRepository.FilterFixedAssetForTransfer(pageNumber, pageLimit, ids);
+            var model = await _assetRepository.FilterFixedAssetForTransfer(pageNumber, pageLimit, ids, detailIds);
             int totalRecords = model.TotalRecords;
             int totalPages = Convert.ToInt32(Math.Ceiling((double)totalRecords / (double)pageLimit));
             entities = model.FixedAssetModels;
@@ -167,6 +174,17 @@ namespace MISA.WebFresher052023.HCSN.Application.Service
             return filterData;
         }
 
+        /// <summary>
+        /// Kiểm tra tài sản có phát sinh chứng từ không
+        /// </summary>
+        /// <param name="assetIds">Danh sách id tài sản</param>
+        /// <param name="action">Hành động như xóa hay cập nhật</param>
+        /// <returns>Ném ra 1 ngoại lệ nếu có chứng từ phát sinh</returns>
+        /// Created by: ldtuan (17/09/2023)
+        public async Task CheckExistTransferAsync(List<Guid> assetIds, ActionMode action)
+        {
+            await _fixedAssetManager.CheckExistTransferAsync(assetIds, action);
+        }
         #endregion
 
     }
